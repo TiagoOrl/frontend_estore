@@ -1,14 +1,18 @@
 
 <table class="table">
-    <thead>
+    <thead class="thead-dark">
         <tr>
             <th>Name</th>
             <th>Price</th>
             <th>Units in Stock</th>
+            <th>Image</th>
         </tr>
     </thead>
     <tbody>
         <tr *ngFor="let product of products">
+            <td>
+                <img style="width: 40%;" class="img-thumbnail" src="{{ product.imageUrl }}" />
+            </td>
             <td>{{ product.name }}</td>
             <td>{{ product.unitPrice }}</td>
             <td>{{ product.unitsInStock }}</td>
