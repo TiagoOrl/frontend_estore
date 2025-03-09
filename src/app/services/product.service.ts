@@ -17,5 +17,11 @@ export class ProductService {
   getProductList(pagination: string): Observable<any> {
     return this.httpClient.get(this.baseUrl + '?' + pagination)
   }
-}
 
+  getProductByCatId(pagination: string, catId: number): Observable<any> {
+    return this.httpClient.get(this.baseUrl + '/get-by-category' + '?' + 'catId=' + catId
+      + '&' + pagination
+    )
+  }
+
+}
