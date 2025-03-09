@@ -14,8 +14,8 @@ export class ProductService {
   constructor(private httpClient: HttpClient) { }
 
 
-  getProductList(): Observable<any> {
-    return this.httpClient.get(this.baseUrl)
+  getProductList(pagination: string): Observable<any> {
+    return this.httpClient.get(this.baseUrl + '?' + pagination)
   }
 }
 
