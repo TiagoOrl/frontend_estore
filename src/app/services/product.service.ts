@@ -1,9 +1,21 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http'
+import { Product } from '../common/product';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators'
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
 
-  constructor() { }
+  private baseUrl = 'http://localhost:8080/api/public/product'
+
+  constructor(private httpClient: HttpClient) { }
+
+
+  getProductList(): Observable<any> {
+    return this.httpClient.get(this.baseUrl)
+  }
 }
+
