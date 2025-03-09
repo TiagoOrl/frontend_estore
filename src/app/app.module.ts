@@ -7,7 +7,8 @@ import { HttpClientModule } from '@angular/common/http'
 
 import { ProductService } from './services/product.service'
 
-import { Routes, RouterModule } from '@angular/router'
+import { Routes, RouterModule } from '@angular/router';
+import { CategoryMenuComponent } from './components/category-menu/category-menu.component'
 
 
 // order of the routes matter, start with specific, goes down to most generic towards the bottom
@@ -22,7 +23,8 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    ProductListComponent
+    ProductListComponent,
+    CategoryMenuComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
