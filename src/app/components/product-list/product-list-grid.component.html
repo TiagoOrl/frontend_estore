@@ -10,6 +10,11 @@
                         <a href="#" class="primary-btn">Adicionar</a>
                     </div>
                 </div>
+
+                <!-- if products list is empty: -->
+                <div *ngIf="products?.length == 0" class="alert alert-warning col-md-12" role="alert">
+                    Nada encontrado
+                </div>
             </div>
         </div>
     </div>
