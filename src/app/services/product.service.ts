@@ -22,4 +22,8 @@ export class ProductService {
     )
   }
 
+  getProductByName(pagination: string, value: string): Observable<any> {
+    return this.httpClient.put(this.baseUrl + '/get-by-name' + '?' + pagination, {name: value})
+  }
+
 }

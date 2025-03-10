@@ -11,6 +11,7 @@ import { ProductService } from 'src/app/services/product.service';
 export class ProductListComponent implements OnInit {
 
   products : Product[] = []
+  searchMode = false
   currentCategoryId: number = 1
 
   constructor(private productService: ProductService, private route: ActivatedRoute) {
@@ -19,23 +20,32 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() =>{
-      this.listProductsByCatId()
+      this.listProducts()
     })
+  }
 
-    this.listAllProducts()
+  private listProducts() {
+    // check if 'id has been passed in the parameter URL (category:id)'
+    const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id')
+    this.searchMode = this.route.snapshot.paramMap.has('keyword')
+
+    if (this.searchMode) {
+      this.listByName(this.route.snapshot.paramMap.get('keyword')!)
+      return
+    }
+
+
+    if (hasCategoryId) {
+      this.currentCategoryId = Number(this.route.snapshot.paramMap.get('id')!)
+      this.listProductsByCatId()
+    }
+    else
+      this.listAllProducts()
   }
 
 
   private listProductsByCatId() {
-    // check if 'id has been passed in the parameter URL (category:id)'
-    const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id')
-
-    if (hasCategoryId)
-      this.currentCategoryId = Number(this.route.snapshot.paramMap.get('id')!)
-    else
-      this.currentCategoryId = 1
-
-
+    
     this.productService.getProductByCatId("page=0&size=40", this.currentCategoryId).subscribe(
       (res) => {
         this.products = res
@@ -60,6 +70,22 @@ export class ProductListComponent implements OnInit {
       },
       () => {
         console.log(`Get all products OK`)
+      }
+    )
+  }
+
+
+  private listByName(value: string) {
+    this.productService.getProductByName("page=0&size=20", value).subscribe (
+      (res) => {
+        this.products = res
+      },
+      (error) => {
+        console.error(`Get products by name failed: ${error}`)
+        this.products = []
+      },
+      () => {
+        console.log(`get products by name OK`)
       }
     )
   }
