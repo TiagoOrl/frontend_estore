@@ -12,6 +12,8 @@ import { CategoryMenuComponent } from './components/category-menu/category-menu.
 import { SearchComponent } from './components/search/search.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component'
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
+
 
 // order of the routes matter, start with specific, goes down to most generic towards the bottom
 const routes: Routes = [
@@ -35,7 +37,8 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes),
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
   providers: [ProductService],
   bootstrap: [AppComponent]
