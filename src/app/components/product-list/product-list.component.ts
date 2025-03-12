@@ -12,7 +12,12 @@ export class ProductListComponent implements OnInit {
 
   products : Product[] = []
   searchMode = false
-  currentCategoryId: number = 1
+  previousCategoryId = 1
+  currentCategoryId = 1
+
+  pageNumber = 0
+  pageSize = 10
+  totalElements = 0
 
   constructor(private productService: ProductService, private route: ActivatedRoute) {
 
@@ -25,6 +30,13 @@ export class ProductListComponent implements OnInit {
   }
 
   private listProducts() {
+
+    if (this.previousCategoryId != this.currentCategoryId) {
+      this.pageNumber = 1
+    }
+
+    this.previousCategoryId = this.currentCategoryId
+
     // check if 'id has been passed in the parameter URL (category:id)'
     const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id')
     this.searchMode = this.route.snapshot.paramMap.has('keyword')
@@ -44,11 +56,10 @@ export class ProductListComponent implements OnInit {
   }
 
 
-  private listProductsByCatId() {
-    
-    this.productService.getProductByCatId("page=0&size=40", this.currentCategoryId).subscribe(
+  private listAllProducts() {
+    this.productService.getProductList(`page=${this.pageNumber - 1}&size=${this.pageSize}`).subscribe(
       (res) => {
-        this.products = res
+        this.products = res.list
       },
       (error) => {
         console.error(`Get all products failed: ${error}`)
@@ -60,10 +71,11 @@ export class ProductListComponent implements OnInit {
   }
 
 
-  private listAllProducts() {
-    this.productService.getProductList("page=0&size=20").subscribe(
+  private listProductsByCatId() {
+    
+    this.productService.getProductByCatId(`page=${this.pageNumber - 1}&size=${this.pageSize}`, this.currentCategoryId).subscribe(
       (res) => {
-        this.products = res
+        this.products = res.list
       },
       (error) => {
         console.error(`Get all products failed: ${error}`)
@@ -76,9 +88,9 @@ export class ProductListComponent implements OnInit {
 
 
   private listByName(value: string) {
-    this.productService.getProductByName("page=0&size=20", value).subscribe (
+    this.productService.getProductByName(`page=${this.pageNumber - 1}&size=${this.pageSize}`, value).subscribe (
       (res) => {
-        this.products = res
+        this.products = res.list
       },
       (error) => {
         console.error(`Get products by name failed: ${error}`)
