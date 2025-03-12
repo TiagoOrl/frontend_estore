@@ -60,6 +60,9 @@ export class ProductListComponent implements OnInit {
     this.productService.getProductList(`page=${this.pageNumber - 1}&size=${this.pageSize}`).subscribe(
       (res) => {
         this.products = res.list
+        this.pageNumber = res.page
+        this.pageSize = res.size
+        this.totalElements = res.totalElements
       },
       (error) => {
         console.error(`Get all products failed: ${error}`)
@@ -76,6 +79,9 @@ export class ProductListComponent implements OnInit {
     this.productService.getProductByCatId(`page=${this.pageNumber - 1}&size=${this.pageSize}`, this.currentCategoryId).subscribe(
       (res) => {
         this.products = res.list
+        this.pageNumber = res.page
+        this.pageSize = res.size
+        this.totalElements = res.totalElements
       },
       (error) => {
         console.error(`Get all products failed: ${error}`)
@@ -91,6 +97,9 @@ export class ProductListComponent implements OnInit {
     this.productService.getProductByName(`page=${this.pageNumber - 1}&size=${this.pageSize}`, value).subscribe (
       (res) => {
         this.products = res.list
+        this.pageNumber = res.page
+        this.pageSize = res.size
+        this.totalElements = res.totalElements
       },
       (error) => {
         console.error(`Get products by name failed: ${error}`)
