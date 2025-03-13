@@ -8,7 +8,7 @@ import { Subject } from 'rxjs';
 export class CartService {
   cartItems: CartItem[] = []
   totalPrice: Subject<number> = new Subject<number>()
-  totalQuantity: Subject<number> = new Subject<number>()
+  totalAmount: Subject<number> = new Subject<number>()
 
   constructor() { }
 
@@ -25,8 +25,10 @@ export class CartService {
       }
     }
 
-    if (alreadyInCart)
+    if (alreadyInCart) {
+      this.updateCart()
       return
+    }
 
     this.cartItems.push(newItem)
     this.updateCart()
@@ -43,6 +45,6 @@ export class CartService {
 
     // publish the new values ...  all subscribers will receive the new data
     this.totalPrice.next(totalValue)
-    this.totalQuantity.next(totalAmount)
+    this.totalAmount.next(totalAmount)
   }
 }
