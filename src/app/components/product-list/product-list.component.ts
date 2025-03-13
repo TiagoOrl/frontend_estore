@@ -14,6 +14,8 @@ export class ProductListComponent implements OnInit {
   searchMode = false
   previousCategoryId = 1
   currentCategoryId = 1
+  currentKeyword = ""
+  previousKeyword = ""
 
   pageNumber = 1
   pageSize = 2
@@ -32,13 +34,6 @@ export class ProductListComponent implements OnInit {
 
   listProducts() {
 
-
-    if (this.previousCategoryId != this.currentCategoryId) {
-      this.pageNumber = 1
-    }
-
-    this.previousCategoryId = this.currentCategoryId
-
     // check if 'id has been passed in the parameter URL (category:id)'
     const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id')
     this.searchMode = this.route.snapshot.paramMap.has('keyword')
@@ -50,8 +45,7 @@ export class ProductListComponent implements OnInit {
 
 
     if (hasCategoryId) {
-      this.currentCategoryId = Number(this.route.snapshot.paramMap.get('id')!)
-      this.listProductsByCatId()
+      this.listProductsByCatId(Number(this.route.snapshot.paramMap.get('id')!))
     }
     else
       this.listAllProducts()
@@ -76,7 +70,14 @@ export class ProductListComponent implements OnInit {
   }
 
 
-  private listProductsByCatId() {
+  private listProductsByCatId(catId: number) {
+    this.currentCategoryId = catId
+
+    if (this.currentCategoryId != this.previousCategoryId)
+      this.pageNumber = 1
+    
+    this.previousCategoryId = this.currentCategoryId
+
     
     this.productService.getProductByCatId(`page=${this.pageNumber - 1}&size=${this.pageSize}`, this.currentCategoryId).subscribe(
       (res) => {
@@ -96,6 +97,13 @@ export class ProductListComponent implements OnInit {
 
 
   private listByName(value: string) {
+    this.currentKeyword = value
+
+    if (this.currentKeyword != this.previousKeyword)
+      this.pageNumber = 1
+
+    this.previousKeyword = this.currentKeyword
+
     this.productService.getProductByName(`page=${this.pageNumber - 1}&size=${this.pageSize}`, value).subscribe (
       (res) => {
         this.products = res.list
