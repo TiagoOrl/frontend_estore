@@ -16,15 +16,13 @@ export class CartService {
   addToCart(newItem: CartItem) {
     // check if already in cart
     let alreadyInCart = false
-    let existingCartItem: CartItem = undefined
 
     for (let item of this.cartItems) {
       if (item.id == newItem.id) {
+        item.amount++
         alreadyInCart = true
         break
       }
-
-        
     }
 
     if (alreadyInCart)
@@ -35,6 +33,16 @@ export class CartService {
   }
 
   private updateCart() {
-    
+    let totalValue = 0
+    let totalAmount = 0
+
+    for (let item of this.cartItems) {
+      totalValue += item.amount * item.unitPrice
+      totalAmount += item.amount
+    }
+
+    // publish the new values ...  all subscribers will receive the new data
+    this.totalPrice.next(totalValue)
+    this.totalQuantity.next(totalAmount)
   }
 }
