@@ -35,6 +35,9 @@ export class ProductDetailsComponent implements OnInit {
         console.log('Get product by Id OK')
       }
     )
+  }
 
+  addToCart(product: Product) {
+    console.log(`${product.name} added to cart!`)
   }
 }

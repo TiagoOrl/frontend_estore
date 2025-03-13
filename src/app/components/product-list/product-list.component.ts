@@ -122,6 +122,11 @@ export class ProductListComponent implements OnInit {
   }
 
 
+  addToCart(product: Product) {
+    console.log(`product ${product.name} added to cart`)
+  }
+
+
   changePageSize(pageSize: string) {
     this.pageSize = +pageSize
     this.pageNumber = 1
