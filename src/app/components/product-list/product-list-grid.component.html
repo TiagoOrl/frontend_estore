@@ -11,7 +11,7 @@
                             <h1> {{product.name}} </h1>
                         </a>
                         <div class="price">{{ product.unitPrice | currency: 'BRL' }}</div>
-                        <a href="#" class="primary-btn">Adicionar</a>
+                        <button (click)="addToCart(product)" class="btn btn-primary btn-sm">Add</button>
                     </div>
                 </div>
 
@@ -28,11 +28,24 @@
                     <div class="col-md-6">
                         <div class="row">
                             <div class="col-md-9">
-                                <ngb-pagination [(page)]="pageNumber" [pageSize]="pageSize"
+                                <ngb-pagination 
+                                    [(page)]="pageNumber" 
+                                    [pageSize]="pageSize"
                                     [collectionSize]="totalElements"
+                                    [maxSize]="7"
+                                    [boundaryLinks]="true"
                                     (pageChange)="listProducts()">
                                 </ngb-pagination>
+                            </div>
+                            <div class="col-md-3 mt-2" style="text-align: right;">
+                                <span class="mr-4">Page Size</span>
 
+                                <select #pageSizeSelect (change)="changePageSize(pageSizeSelect.value)">
+                                    <option selected="true">2</option>
+                                    <option>3</option>
+                                    <option>9</option>
+                                    <option>15</option>
+                                </select>
                             </div>
                         </div>
                     </div>
