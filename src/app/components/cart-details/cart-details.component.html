@@ -22,7 +22,25 @@
                         </td>
                         <td>
                             <div class="items">
-                                <p>{{ item.amount }}</p>
+                                <label>Amount:</label>
+                                <div class="row no-gutters">
+                                    <div class="col">
+                                        <button class="btn btn-primary btn-sm">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+    
+                                    <div class="col ml-4 mr-2">
+                                        {{ item.amount }}
+                                    </div>
+    
+                                    <div class="col">
+                                        <button class="btn btn-primary btn-sm">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-8"></div>
                             </div>
     
                             <div class="mt-2">Subtotal: {{item.amount * item.unitPrice | currency: 'BRL'}}</div>
