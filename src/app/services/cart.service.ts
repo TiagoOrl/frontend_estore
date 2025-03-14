@@ -34,6 +34,32 @@ export class CartService {
     this.updateCart()
   }
 
+  removeFromCart(toRemoveItem: CartItem) {
+    let shouldRemove = false
+
+    for (const item of this.cartItems) {
+      if (item == toRemoveItem) {
+        if (item.amount < 2) {
+          shouldRemove = true
+        } 
+
+        else {
+          item.amount--
+        }
+      }
+    }
+
+    
+
+    if (shouldRemove) {
+      const itemIndex = this.cartItems.findIndex( item => item.id == toRemoveItem.id)
+      this.cartItems.splice(itemIndex, 1)
+    }
+      
+
+    this.updateCart()
+  }
+
   updateCart() {
     let totalValue = 0
     let totalAmount = 0
@@ -43,7 +69,7 @@ export class CartService {
       totalAmount += item.amount
     }
 
-    // publish the new values ...  all subscribers will receive the new data
+    // publish the new values ...  all subscribers will receive the new data, update the UI
     this.totalPrice.next(totalValue)
     this.totalAmount.next(totalAmount)
   }

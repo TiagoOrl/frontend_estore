@@ -32,4 +32,12 @@ export class CartDetailsComponent implements OnInit {
     this.cartService.updateCart()
   }
 
+  incrementItem(item: CartItem) {
+    this.cartService.addToCart(item)
+  }
+
+  decrementItem(item: CartItem) {
+    this.cartService.removeFromCart(item)
+  }
+
 }
