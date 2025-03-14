@@ -7,7 +7,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./checkout.component.css']
 })
 export class CheckoutComponent implements OnInit {
-  checkoutFormGroup: FormGroup
+  checkoutFormGroup!: FormGroup
+  totalPrice = 0.0
+  totalAmount = 0
 
   constructor(private formBuilder: FormBuilder) {
     
@@ -19,8 +21,27 @@ export class CheckoutComponent implements OnInit {
         firstName: [''],
         lastName: [''],
         email: ['']
+      }),
+      shipping: this.formBuilder.group({
+        street: [''],
+        city: [''],
+        state: [''],
+        country: [''],
+        zipCode: ['']
+      }),
+      creditCard: this.formBuilder.group({
+        type: [''],
+        nameOnCard: [''],
+        cardNumber: [''],
+        securityCode: [''],
+        expirationDate: ['']
       })
     })
+  }
+
+  onSubmit() {
+    console.log('checkout form submitted!!!')
+    console.log(this.checkoutFormGroup.get('customer')!.value)
   }
 
 }
