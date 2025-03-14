@@ -20,7 +20,7 @@ export class ProductListComponent implements OnInit {
   previousKeyword = ""
 
   pageNumber = 1
-  pageSize = 2
+  pageSize = 4
   totalElements = 0
 
   constructor(

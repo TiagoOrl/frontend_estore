@@ -34,7 +34,7 @@ export class CartService {
     this.updateCart()
   }
 
-  private updateCart() {
+  updateCart() {
     let totalValue = 0
     let totalAmount = 0
 
