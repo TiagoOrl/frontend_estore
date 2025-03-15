@@ -128,13 +128,30 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-2"><label>Expiration Date</label></div>
+                        <div class="col-md-2"><label>Expiration Month</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <input formControlName="expirationDate" type="text">
+                                <select formGroupName="expMonth">
+                                    <option *ngFor="let i of nextMonths">
+                                        {{ i }}
+                                    </option>
+                                </select>
                             </div>
                         </div>
-                    </div>            
+                    </div>    
+                    
+                    <div class="row">
+                        <div class="col-md-2"><label>Expiration Year</label></div>
+                        <div class="col-md-9">
+                            <div class="input-space">
+                                <select formGroupName="expYear">
+                                    <option *ngFor="let i of nextYears">
+                                        {{ i }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div> 
                 </div>
 
                 <div class="form-area">

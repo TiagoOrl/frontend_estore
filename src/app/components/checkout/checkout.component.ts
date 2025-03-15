@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormService } from 'src/app/services/form.service';
 
 @Component({
   selector: 'app-checkout',
@@ -11,11 +12,27 @@ export class CheckoutComponent implements OnInit {
   totalPrice = 0.0
   totalAmount = 0
 
-  constructor(private formBuilder: FormBuilder) {
-    
-   }
+  nextYears: number[] = []
+  nextMonths: number[] = []
+
+  constructor(private formBuilder: FormBuilder, private formService: FormService) {
+
+  }
 
   ngOnInit(): void {
+
+    this.formService.getMonthsList().subscribe(
+      data => {
+        this.nextMonths = data
+      }
+    )
+
+    this.formService.getFutureYearsList().subscribe(
+      data => {
+        this.nextYears = data
+      }
+    )
+
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
         firstName: [''],
@@ -34,7 +51,8 @@ export class CheckoutComponent implements OnInit {
         nameOnCard: [''],
         cardNumber: [''],
         securityCode: [''],
-        expirationDate: ['']
+        expMonth: [''],
+        expYear: ['']
       })
     })
   }
