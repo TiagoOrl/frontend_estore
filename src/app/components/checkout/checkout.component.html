@@ -144,7 +144,7 @@
                         <div class="col-md-2"><label>Expiration Year</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <select formGroupName="expYear">
+                                <select formControlName="expYear" (change)="updateMonthsList()">
                                     <option *ngFor="let i of nextYears">
                                         {{ i }}
                                     </option>

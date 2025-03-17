@@ -21,7 +21,7 @@ export class CheckoutComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.formService.getMonthsList().subscribe(
+    this.formService.getMonthsList(1).subscribe(
       data => {
         this.nextMonths = data
       }
@@ -60,6 +60,28 @@ export class CheckoutComponent implements OnInit {
   onSubmit() {
     console.log('checkout form submitted!!!')
     console.log(this.checkoutFormGroup.get('customer')!.value)
+  }
+
+
+  updateMonthsList() {
+    const creditCardFormGroup = this.checkoutFormGroup.get('creditCard')
+
+    const currentYear = new Date().getFullYear()
+    const selectedYear = Number(creditCardFormGroup?.value.expYear)
+
+    console.log(selectedYear)
+    console.log(currentYear)
+
+    let month = 1
+
+    if (currentYear ===  selectedYear)
+      month = new Date().getMonth() + 1
+    else 
+      month = 1
+
+    this.formService.getMonthsList(month).subscribe(
+      data => this.nextMonths = data
+    )
   }
 
 }

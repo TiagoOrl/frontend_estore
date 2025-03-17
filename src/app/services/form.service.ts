@@ -8,11 +8,13 @@ export class FormService {
 
   constructor() { }
 
-  getMonthsList(): Observable<number[]> {
+  getMonthsList(startMonth: number): Observable<number[]> {
     let months: number[] = []
-    const currentMonth = new Date().getMonth() + 1
 
-    for (let i = currentMonth; i <= 12; i++) {
+    if (startMonth > 11 || startMonth < 1)
+      return of ([])
+
+    for (let i = startMonth; i <= 12; i++) {
       months.push(i)
     }
 
