@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormService } from 'src/app/services/form.service';
+import { General } from 'src/app/validators/general'
 
 @Component({
   selector: 'app-checkout',
@@ -36,22 +37,22 @@ export class CheckoutComponent implements OnInit {
 
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
-        firstName: new FormControl('', [Validators.required, Validators.minLength(3)]),
-        lastName: new FormControl('', [Validators.required, Validators.minLength(3)]),
-        email: new FormControl('', [Validators.required, Validators.email, Validators.minLength(3)]),
+        firstName: new FormControl('', [Validators.required, Validators.minLength(3), General.notOnlyWhiteSpace]),
+        lastName: new FormControl('', [Validators.required, Validators.minLength(3), General.notOnlyWhiteSpace]),
+        email: new FormControl('', [Validators.required, Validators.email, Validators.minLength(3), General.notOnlyWhiteSpace]),
       }),
       shipping: this.formBuilder.group({
-        street: new FormControl('', [Validators.required, Validators.minLength(5)]),
-        city: new FormControl('', [Validators.required, Validators.minLength(3)]),
-        state: new FormControl('', [Validators.required, Validators.minLength(3)]),
+        street: new FormControl('', [Validators.required, Validators.minLength(5), General.notOnlyWhiteSpace]),
+        city: new FormControl('', [Validators.required, Validators.minLength(3), General.notOnlyWhiteSpace]),
+        state: new FormControl('', [Validators.required, Validators.minLength(3), General.notOnlyWhiteSpace]),
         country: [''],
-        zipCode: new FormControl('', [Validators.required, Validators.minLength(8)]),
+        zipCode: new FormControl('', [Validators.required, Validators.minLength(8), General.notOnlyWhiteSpace]),
       }),
       creditCard: this.formBuilder.group({
         type: [''],
-        nameOnCard: new FormControl('', [Validators.required, Validators.minLength(4)]),
-        cardNumber: new FormControl('', [Validators.required, Validators.minLength(16), Validators.maxLength(16)]),
-        securityCode: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(3)]),
+        nameOnCard: new FormControl('', [Validators.required, Validators.minLength(4), General.notOnlyWhiteSpace]),
+        cardNumber: new FormControl('', [Validators.required, Validators.minLength(16), Validators.maxLength(16), General.notOnlyWhiteSpace]),
+        securityCode: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(3), General.notOnlyWhiteSpace]),
         expMonth: [''],
         expYear: ['']
       })
@@ -79,8 +80,8 @@ export class CheckoutComponent implements OnInit {
 
 
   onSubmit() {
-    console.log('checkout form submitted!!!')
-    console.log(this.checkoutFormGroup.get('customer')!.value)
+    if (this.checkoutFormGroup.invalid)
+      this.checkoutFormGroup.markAllAsTouched()
   }
 
 
