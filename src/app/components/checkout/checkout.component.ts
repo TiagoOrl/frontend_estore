@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { CartService } from 'src/app/services/cart.service';
 import { FormService } from 'src/app/services/form.service';
 import { General } from 'src/app/validators/general'
 
@@ -17,23 +18,14 @@ export class CheckoutComponent implements OnInit {
   nextMonths: number[] = []
   countries = ['Brazil', 'Canada', 'UK', 'Ireland', 'Japan', 'Portugal', 'Chile', 'Uruguay']
 
-  constructor(private formBuilder: FormBuilder, private formService: FormService) {
+  constructor(private formBuilder: FormBuilder, private formService: FormService, private cartService: CartService) {
 
   }
 
   ngOnInit(): void {
 
-    this.formService.getMonthsList(1).subscribe(
-      data => {
-        this.nextMonths = data
-      }
-    )
-
-    this.formService.getFutureYearsList().subscribe(
-      data => {
-        this.nextYears = data
-      }
-    )
+    this.updateCCardYearMonth()
+    this.updateOrder()
 
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
@@ -103,6 +95,32 @@ export class CheckoutComponent implements OnInit {
 
     this.formService.getMonthsList(month).subscribe(
       data => this.nextMonths = data
+    )
+  }
+
+
+  private updateOrder() {
+    this.cartService.totalAmount.subscribe(
+      data => this.totalAmount = data
+    )
+
+    this.cartService.totalPrice.subscribe(
+      data => this.totalPrice = data
+    )
+  }
+
+
+  private updateCCardYearMonth() {
+    this.formService.getMonthsList(1).subscribe(
+      data => {
+        this.nextMonths = data
+      }
+    )
+
+    this.formService.getFutureYearsList().subscribe(
+      data => {
+        this.nextYears = data
+      }
     )
   }
 
