@@ -496,7 +496,7 @@ input.au-input.au-input-xl{
 }
 .header-mobile-2{
     background:#393939;
-    position:static
+    position:staticf
 }
 .header-mobile-2.header-mobile .navbar-mobile{
     top:82px
@@ -514,7 +514,7 @@ input.au-input.au-input-xl{
     background:#fff
 }
 .main-content.page-m{
-    padding:10% 15%!important
+    padding:10% 30% 10% 5%;
 }
 
 /* 

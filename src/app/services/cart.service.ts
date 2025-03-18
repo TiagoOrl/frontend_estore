@@ -34,7 +34,7 @@ export class CartService {
     this.updateCart()
   }
 
-  removeFromCart(toRemoveItem: CartItem) {
+  decrementFromCart(toRemoveItem: CartItem) {
     let shouldRemove = false
 
     for (const item of this.cartItems) {
@@ -52,13 +52,21 @@ export class CartService {
     
 
     if (shouldRemove) {
-      const itemIndex = this.cartItems.findIndex( item => item.id == toRemoveItem.id)
-      this.cartItems.splice(itemIndex, 1)
+      this.removeFromCart(toRemoveItem)
     }
       
 
     this.updateCart()
   }
+
+
+  removeFromCart(toRemoveItem: CartItem) {
+    const itemIndex = this.cartItems.findIndex( item => item.id == toRemoveItem.id)
+    this.cartItems.splice(itemIndex, 1)
+
+    this.updateCart()
+  }
+
 
   updateCart() {
     let totalValue = 0
