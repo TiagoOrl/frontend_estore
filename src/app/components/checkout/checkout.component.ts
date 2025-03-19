@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { CartService } from 'src/app/services/cart.service';
+import { CheckoutService } from 'src/app/services/checkout.service';
 import { FormService } from 'src/app/services/form.service';
 import { General } from 'src/app/validators/general'
+import { OrderProduct } from 'src/app/common/order-product'
 
 @Component({
   selector: 'app-checkout',
@@ -13,27 +16,26 @@ export class CheckoutComponent implements OnInit {
   totalPrice = 0.0
   totalAmount = 0
 
+  private orderId: number = -1
+  private clientId: number = 2
+  private orderCreateError = false
+
   nextYears: number[] = []
   nextMonths: number[] = []
   countries = ['Brazil', 'Canada', 'UK', 'Ireland', 'Japan', 'Portugal', 'Chile', 'Uruguay']
 
-  constructor(private formBuilder: FormBuilder, private formService: FormService) {
+  constructor(
+    private formBuilder: FormBuilder, 
+    private formService: FormService, 
+    private cartService: CartService,
+    private checkoutService: CheckoutService ) {
 
   }
 
   ngOnInit(): void {
 
-    this.formService.getMonthsList(1).subscribe(
-      data => {
-        this.nextMonths = data
-      }
-    )
-
-    this.formService.getFutureYearsList().subscribe(
-      data => {
-        this.nextYears = data
-      }
-    )
+    this.updateCCardYearMonth()
+    this.updateOrder()
 
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
@@ -80,8 +82,43 @@ export class CheckoutComponent implements OnInit {
 
 
   onSubmit() {
-    if (this.checkoutFormGroup.invalid)
-      this.checkoutFormGroup.markAllAsTouched()
+    // if (this.checkoutFormGroup.invalid)
+    //   this.checkoutFormGroup.markAllAsTouched()
+    // else {
+      this.checkoutService.createOrderForClient(this.clientId).subscribe(
+        res => {
+          this.orderId = res.id
+          const orderProducts: OrderProduct[] = []
+
+
+          for (const i of this.cartService.cartItems) {
+            orderProducts.push(new OrderProduct(i.amount, +i.id, this.orderId))
+          }
+
+          console.log(this.cartService.cartItems)
+          console.log(orderProducts)
+
+          this.checkoutService.addProductsToOrder(orderProducts).subscribe(
+            res => {
+              console.log(res)
+            },
+            res => {
+              console.log(`error on added order products to order ${this.orderId} \n ${res.error.message}`)
+            },
+            () => {
+              console.log(`products added to order ${this.orderId}`)
+            }
+          )
+        },
+        res => {
+          console.log(`create order for client ${this.clientId} failed: ${res.error.message}`)
+          this.orderCreateError = true
+        },
+        () => {
+          console.log('order created for client')
+        }
+      )
+    // }
   }
 
 
@@ -103,6 +140,32 @@ export class CheckoutComponent implements OnInit {
 
     this.formService.getMonthsList(month).subscribe(
       data => this.nextMonths = data
+    )
+  }
+
+
+  private updateOrder() {
+    this.cartService.totalAmount.subscribe(
+      data => this.totalAmount = data
+    )
+
+    this.cartService.totalPrice.subscribe(
+      data => this.totalPrice = data
+    )
+  }
+
+
+  private updateCCardYearMonth() {
+    this.formService.getMonthsList(1).subscribe(
+      data => {
+        this.nextMonths = data
+      }
+    )
+
+    this.formService.getFutureYearsList().subscribe(
+      data => {
+        this.nextYears = data
+      }
     )
   }
 
