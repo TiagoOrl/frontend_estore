@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { OrderProduct } from '../common/order-product';
 
-import { OrderProduct } from 'src/app/common/order-product'
 
 @Injectable({
   providedIn: 'root'
@@ -19,9 +19,7 @@ export class CheckoutService {
   }
 
 
-  addProductToOrder(orderProduct: OrderProduct): Observable<any> {
-    return this.httpClient.post(this.orderproductUrl + `/add`, orderProduct)
+  addProductsToOrder(orderProducts: OrderProduct[]): Observable<any> {
+    return this.httpClient.post(this.orderproductUrl + `/add`, orderProducts)
   }
-
-
 }
