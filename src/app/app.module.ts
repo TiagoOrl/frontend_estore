@@ -17,10 +17,15 @@ import { CartStatusComponent } from './components/cart-status/cart-status.compon
 import { CartDetailsComponent } from './components/cart-details/cart-details.component';
 import { CheckoutComponent } from './components/checkout/checkout.component'
 import { ReactiveFormsModule } from '@angular/forms';
+import { LoginButtonComponent } from './components/login-button/login-button.component';
+import { LoginPageComponent } from './components/login-page/login-page.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 
 // order of the routes matter, start with specific, goes down to most generic towards the bottom
 const routes: Routes = [
+  { path: 'profile', component: ProfileComponent },
+  { path: 'login', component: LoginPageComponent },
   { path: 'checkout', component: CheckoutComponent },
   { path: 'cart-details', component: CartDetailsComponent },
   { path: 'products/:id', component: ProductDetailsComponent },
@@ -41,7 +46,10 @@ const routes: Routes = [
     ProductDetailsComponent,
     CartStatusComponent,
     CartDetailsComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    LoginButtonComponent,
+    LoginPageComponent,
+    ProfileComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
